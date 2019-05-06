@@ -15,7 +15,8 @@ const Config = {
         horizontalOffset: 100,
         verticalBottomOffset: 82,
         verticalTopOffset: 139,
-        helperLineRatio: 1.5
+        helperLineRatio: 1.5,
+        animationDuration: 210, // frames at 30 fps
     },
     levels: [
         /* Level 1 */

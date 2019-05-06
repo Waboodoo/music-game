@@ -25,7 +25,16 @@ const Game = {
     hasBassClef() {
         return Game._getLevelConfig().bassClef;
     },
+
+    getRandomNote() {
+        arr = Game._getLevelConfig().notes;
+        var i = Math.floor(Math.random() * arr.length)
+        return arr[i];
+    },
 };
+
+var currentAnimationFrame = 0;
+var currentNote = 0;
 
 /* Asset loading */
 function preload() {
@@ -41,20 +50,31 @@ function preload() {
 function setup() {
 	createCanvas(Config.canvas.width, Config.canvas.height);
     // Assets.music.play();
+    frameRate(30);
+    nextNote();
 }
 
 /* Canvas drawing */
 function draw() {
     resetCanvas();
+
+    currentAnimationFrame++;
+    if (currentAnimationFrame >= Config.note.animationDuration) nextNote();
     
     drawLevelNumber();
     drawStave();
-    drawNote(1);
+    drawNote(currentNote);
+
 }
 
 function resetCanvas() {
     clear();
     background(Assets.images.background);
+}
+
+function nextNote() {
+    currentAnimationFrame = 0;
+    currentNote = Game.getRandomNote();
 }
 
 function drawLevelNumber() {
@@ -100,16 +120,18 @@ function drawNote(dist_from_a){
     var noteImg = dist_from_a <= 0 ? Assets.images.bottomNote : Assets.images.topNote;
     var verticalOffset = dist_from_a <= 0 ? Config.note.verticalBottomOffset : Config.note.verticalTopOffset;
     var y_note = verticalOffset - dist_from_a * Config.stave.verticalLineSpacing / 2;
-    image(noteImg, Config.note.horizontalOffset, y_note);
+    var animOffset = (width - Config.note.horizontalOffset) * currentAnimationFrame / Config.note.animationDuration;
+    var x_note = Config.note.horizontalOffset + animOffset;
+    image(noteImg, x_note, y_note);
     
-    for (var i = dist_from_a; i < -4; i++) drawHelperLine(i, noteImg.width)  // Bottom helper lines (if any)
-    for (var i = dist_from_a; i > 6; i--) drawHelperLine(i, noteImg.width)  // Top helper lines (if any)
+    for (var i = dist_from_a; i < -4; i++) drawHelperLine(i, noteImg.width, animOffset)  // Bottom helper lines (if any)
+    for (var i = dist_from_a; i > 6; i--) drawHelperLine(i, noteImg.width, animOffset)  // Top helper lines (if any)
 }
 
-function drawHelperLine(dist_from_a, noteWidth){
+function drawHelperLine(dist_from_a, noteWidth, animOffset){
     if (dist_from_a % 2 == 0) return;
     var w = noteWidth * Config.note.helperLineRatio;
-    var x = Config.note.horizontalOffset - (w - noteWidth) / 2;
+    var x_line = Config.note.horizontalOffset - (w - noteWidth) / 2 + animOffset;
     var y_line = Config.stave.verticalOffset - (dist_from_a - 5) * Config.stave.verticalLineSpacing / 2;
-    line(x, y_line, x + w, y_line);
+    line(x_line, y_line, x_line + w, y_line);
 }
