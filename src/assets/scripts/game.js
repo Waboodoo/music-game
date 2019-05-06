@@ -30,16 +30,18 @@ const Game = {
 /* Asset loading */
 function preload() {
     Assets.images.background = AssetLoader.getImage('background1.svg');
-    Assets.images.cat = AssetLoader.getImage('cat.jpg');
+    // Assets.images.cat = AssetLoader.getImage('cat.jpg');
     Assets.images.violinClef = AssetLoader.getImage('violin-clef.png');
     Assets.images.bassClef = AssetLoader.getImage('bass-clef.png');
-    Assets.music = AssetLoader.getSound('Nyan Cat.mp3');
+    Assets.images.bottomNote = AssetLoader.getImage('bottom-note.svg');
+    Assets.images.topNote = AssetLoader.getImage('top-note.svg');
+    // Assets.music = AssetLoader.getSound('Nyan Cat.mp3');
 }
 
 /* Canvas initialization */
 function setup() {
 	createCanvas(Config.canvas.width, Config.canvas.height);
-    Assets.music.play();
+    // Assets.music.play();
 }
 
 /* Canvas drawing */
@@ -48,12 +50,13 @@ function draw() {
     
     drawLevelNumber();
     drawStave();
+    drawNote(1);
 }
 
 function resetCanvas() {
     clear();
     background(Assets.images.background);
-	image(Assets.images.cat, Math.random()*Config.canvas.width, Math.random()*Config.canvas.height);
+	// image(Assets.images.cat, Math.random()*Config.canvas.width, Math.random()*Config.canvas.height);
 }
 
 function drawLevelNumber() {
@@ -71,8 +74,8 @@ function drawStave() {
             line(0, y, width, y);
         }
         const clefX = Config.clef.horizontalOffset;
-        const clefY = verticalOffset - Config.stave.verticalLineSpacing * 1.5;
-        const clefHeight = Config.stave.verticalLineSpacing * 8;
+        const clefY = verticalOffset - Config.stave.verticalLineSpacing * 1.5 + 10;
+        const clefHeight = Config.stave.verticalLineSpacing * 6.5;
         const clefWidth = clefHeight / clef.height * clef.width;
         
         image(clef, clefX, clefY, clefWidth, clefHeight);
@@ -87,10 +90,29 @@ function drawStave() {
             line(0, y, width, y);
         }
         const clefX = Config.clef.horizontalOffset;
-        const clefY = verticalOffset - Config.stave.verticalLineSpacing * 1.5;
-        const clefHeight = Config.stave.verticalLineSpacing * 8;
+        const clefY = verticalOffset - Config.stave.verticalLineSpacing * 1.5 + 28;
+        const clefHeight = Config.stave.verticalLineSpacing * 3.6;
         const clefWidth = clefHeight / clef.height * clef.width;
         
         image(clef, clefX, clefY, clefWidth, clefHeight);
     }
+}
+
+function drawNote(dist_from_a){
+    var noteImg = dist_from_a <= 0 ? Assets.images.bottomNote : Assets.images.topNote;
+    var verticalOffset = dist_from_a <= 0 ? Config.note.verticalBottomOffset : Config.note.verticalTopOffset;
+    var y_note = verticalOffset - dist_from_a * Config.stave.verticalLineSpacing / 2;
+    image(noteImg, Config.note.horizontalOffset, y_note);
+    
+    for (var i = dist_from_a; i < -4; i++) drawHelperLine(i, noteImg.width)  // Bottom helper lines (if any)
+    for (var i = dist_from_a; i > 6; i--) drawHelperLine(i, noteImg.width)  // Top helper lines (if any)
+}
+
+function drawHelperLine(dist_from_a, noteWidth){
+    if (dist_from_a % 2 == 0) return;
+    var w = noteWidth * Config.note.helperLineRatio;
+    var x = Config.note.horizontalOffset - (w - noteWidth) / 2;
+    var y_line = Config.stave.verticalOffset - (dist_from_a - 5) * Config.stave.verticalLineSpacing / 2;
+    // var y_line = Config.note.helperLineVerticalOffset - dist_from_a * Config.stave.verticalLineSpacing / 2 + Config.note.helperLineOffset;
+    line(x, y_line, x + w, y_line);
 }
