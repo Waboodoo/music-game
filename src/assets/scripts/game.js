@@ -30,7 +30,6 @@ const Game = {
 /* Asset loading */
 function preload() {
     Assets.images.background = AssetLoader.getImage('background1.svg');
-    // Assets.images.cat = AssetLoader.getImage('cat.jpg');
     Assets.images.violinClef = AssetLoader.getImage('violin-clef.png');
     Assets.images.bassClef = AssetLoader.getImage('bass-clef.png');
     Assets.images.bottomNote = AssetLoader.getImage('bottom-note.svg');
@@ -56,7 +55,6 @@ function draw() {
 function resetCanvas() {
     clear();
     background(Assets.images.background);
-	// image(Assets.images.cat, Math.random()*Config.canvas.width, Math.random()*Config.canvas.height);
 }
 
 function drawLevelNumber() {
@@ -113,6 +111,5 @@ function drawHelperLine(dist_from_a, noteWidth){
     var w = noteWidth * Config.note.helperLineRatio;
     var x = Config.note.horizontalOffset - (w - noteWidth) / 2;
     var y_line = Config.stave.verticalOffset - (dist_from_a - 5) * Config.stave.verticalLineSpacing / 2;
-    // var y_line = Config.note.helperLineVerticalOffset - dist_from_a * Config.stave.verticalLineSpacing / 2 + Config.note.helperLineOffset;
     line(x, y_line, x + w, y_line);
 }
