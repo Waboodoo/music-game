@@ -1,12 +1,68 @@
 body {
 	padding: 0;
 	margin: 0;
-    color: #000000;
+    background-color: #000000;
     overflow: hidden;
+    text-align: center;
 }
 
 #p5_loading {
 	font-size: 20pt;
-	margin: 20px;
+	margin: 40px;
 	color: #999999;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#p5_loading + #canvasContainer {
+    display: none;
+}
+
+#canvasContainer {
+    position: relative;
+    display: inline-block;
+    margin: auto;
+}
+
+.roundButton {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 5px;
+    text-align: center;
+    color: #ffffff;
+    border-radius: 50%;
+    border: 1px solid #ffffff;
+    background: #0044CC;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+.roundButton:hover {
+    background: #0055EE;
+}
+
+#musicToggle {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+#gameToggle {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+#nextLevel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    min-width: 120px;
+}
+
+#correctOption {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    right: 50%;
+    min-width: 120px;
 }
