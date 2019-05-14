@@ -59,10 +59,20 @@ body {
     min-width: 120px;
 }
 
-#correctOption {
+#options {
     position: absolute;
+    width: 600px;
+    
+    
+    left: 212px;
     bottom: 20px;
-    left: 50%;
-    right: 50%;
-    min-width: 120px;
+}
+#options .row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+#options .row .option {
+    width: 30%;
+    flex: 1;
 }

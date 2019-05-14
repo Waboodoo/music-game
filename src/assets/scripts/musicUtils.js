@@ -4,7 +4,17 @@ const MusicUtils = {
         return this._notes.find(note => note.name === name);
     },
     
+    getNoteName(note, useSimpleName) {
+        return useSimpleName ? (note.simpleName || note.name) : note.name;
+    },
+    
     _notes: [
+        {
+            name: "Ges'",
+            offset: -10,
+            clef: Clef.BASS,
+            modifier: NoteModifier.FLAT,
+        },
         {
             name: "G'",
             offset: -10,
@@ -296,6 +306,7 @@ const MusicUtils = {
         },
         {
             name: "c'",
+            simpleName: "c",
             offset: -5,
             clef: Clef.TREBLE,
         },
@@ -313,6 +324,7 @@ const MusicUtils = {
         },
         {
             name: "d'",
+            simpleName: "d",
             offset: -4,
             clef: Clef.TREBLE,
         },
@@ -330,6 +342,7 @@ const MusicUtils = {
         },
         {
             name: "e'",
+            simpleName: "e",
             offset: -3,
             clef: Clef.TREBLE,
         },
@@ -347,6 +360,7 @@ const MusicUtils = {
         },
         {
             name: "f'",
+            simpleName: "f",
             offset: -2,
             clef: Clef.TREBLE,
         },
@@ -364,6 +378,7 @@ const MusicUtils = {
         },
         {
             name: "g'",
+            simpleName: "g",
             offset: -1,
             clef: Clef.TREBLE,
         },
@@ -381,6 +396,7 @@ const MusicUtils = {
         },
         {
             name: "a'",
+            simpleName: "a",
             offset: 0,
             clef: Clef.TREBLE,
         },
@@ -398,6 +414,7 @@ const MusicUtils = {
         },
         {
             name: "h'",
+            simpleName: "h",
             offset: 1,
             clef: Clef.TREBLE,
         },
@@ -415,6 +432,7 @@ const MusicUtils = {
         },
         {
             name: "c''",
+            simpleName: "c",
             offset: 2,
             clef: Clef.TREBLE,
         },
@@ -432,6 +450,7 @@ const MusicUtils = {
         },
         {
             name: "d''",
+            simpleName: "d",
             offset: 3,
             clef: Clef.TREBLE,
         },
@@ -449,6 +468,7 @@ const MusicUtils = {
         },
         {
             name: "e''",
+            simpleName: "e",
             offset: 4,
             clef: Clef.TREBLE,
         },
@@ -466,6 +486,7 @@ const MusicUtils = {
         },
         {
             name: "f''",
+            simpleName: "f",
             offset: 5,
             clef: Clef.TREBLE,
         },

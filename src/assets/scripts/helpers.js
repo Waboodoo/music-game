@@ -13,3 +13,14 @@ const AssetLoader = {
     },
     
 };
+
+function shuffle(array) {
+    const mapped = array.map(element => {
+        return {
+            key: Math.random(),
+            value: element,
+        };
+    });
+    mapped.sort();
+    return mapped.map(element => element.value);
+}

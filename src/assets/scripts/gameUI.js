@@ -9,23 +9,27 @@ const GameUI = {
     
     _bindUIElements() {
         select('#musicToggle').mouseClicked(() => {
-            this._triggerEvent('toggleMusic');
+            this._triggerEvent(GameUIEvent.TOGGLE_MUSIC);
         });
         select('#gameToggle').mouseClicked(() => {
-            this._triggerEvent('toggleGame');
+            this._triggerEvent(GameUIEvent.TOGGLE_GAME);
         });
         select('#nextLevel').mouseClicked(() => {
-            this._triggerEvent('nextLevel');
+            this._triggerEvent(GameUIEvent.NEXT_LEVEL);
         });
         
-        // TODO
-        select('#correctOption').mouseClicked(() => {
-            this._triggerEvent('correctOptionSelected');
-        });
+        for (let i = 1; i <= 6; i++) {
+            const index = i - 1;
+            select(`#option${i}`).mouseClicked(() => {
+                this._triggerEvent(GameUIEvent.OPTION_SELECTED, {
+                    index: index,
+                });
+            });
+        }
     },
     
-    _triggerEvent(eventName) {
-        this._eventListener(eventName);
+    _triggerEvent(eventName, data) {
+        this._eventListener(eventName, data);
     },
     
     resetCanvas(backgroundName) {
@@ -43,6 +47,12 @@ const GameUI = {
     
     drawCompleteState() {
         this._drawMainText('Game Over');
+    },
+    
+    setOptions(options) {
+        for (let i = 1; i <= 6; i++) {
+            select(`#option${i}`).html(options[i-1]);
+        }
     },
     
     _drawMainText(message) {

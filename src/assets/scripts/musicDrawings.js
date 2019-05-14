@@ -2,6 +2,10 @@ const MusicDrawings = {
     
     drawStaffs(withTrebleClef, withBassClef) {
         let verticalOffset = Config.staff.verticalOffset;
+        if (!withTrebleClef || !withBassClef) {
+            verticalOffset += this._getVerticalOffsetBetweenClefs() / 2;
+        }
+        
         if (withTrebleClef) {
             const clef = Assets.images.trebleClef
             for (let i = 0; i < 5; i++) {
@@ -51,51 +55,83 @@ const MusicDrawings = {
         return Config.staff.verticalSpacing + Config.staff.verticalLineSpacing * 5;
     },
 
-    drawNote(note, useBottomClef, progress) {
-        const yNote = this._getNoteVerticalOffset(note, useBottomClef);
+    drawNote(note, clefLocation, progress) {
+        const noteY = this._getNoteVerticalOffset(note, clefLocation);
         const noteImage = this._getNoteImage(note);
         const animationOffset = (Config.canvas.width - Config.note.horizontalOffset) * progress;
-        const xNote = Config.note.horizontalOffset + animationOffset;
-        image(noteImage, xNote, yNote);
+        const noteWidth = noteImage.width;
+        const noteHeight = noteImage.height;
+        let noteX = Config.note.horizontalOffset + animationOffset;
         
-        this._drawLedgerLines(note, noteImage.width, useBottomClef, xNote);
+        if (note.modifier) {
+            const modifierImage = note.modifier === NoteModifier.SHARP ? Assets.images.sharpSign : Assets.images.flatSign;
+            const modifierY = this._getModifierVerticalOffset(note, clefLocation);
+            const modifierX = noteX;
+            const modifierHeight = noteHeight * 0.6;
+            const modifierWidth = modifierHeight / modifierImage.height * modifierImage.width;
+            image(modifierImage, modifierX, modifierY, modifierWidth, modifierHeight);
+            
+            noteX += modifierWidth + Config.note.modifiers.horizontalOffsetToNote;
+        }
+        
+        image(noteImage, noteX, noteY, noteWidth, noteHeight);
+        
+        this._drawLedgerLines(note, noteImage.width, clefLocation, noteX);
     },
     
     _getNoteImage(note) {
         return note.offset <= 0 ? Assets.images.bottomNote : Assets.images.topNote;
     },
     
-    _getNoteVerticalOffset(note, useBottomClef) {
-        let yNote = useBottomClef ? this._getVerticalOffsetBetweenClefs() : 0;
-        yNote += Config.staff.verticalOffset;
+    _getNoteVerticalOffset(note, clefLocation) {
+        let noteY = this._getBaseClefOffset(clefLocation);
+        noteY += Config.staff.verticalOffset;
         const offsets = Config.note.verticalOffsets[note.clef];
-        yNote += note.offset <= 0 ? offsets.bottom : offsets.top;
-        yNote -= note.offset * Config.staff.verticalLineSpacing / 2;
-        return yNote;
+        noteY += note.offset <= 0 ? offsets.bottom : offsets.top;
+        noteY -= note.offset * Config.staff.verticalLineSpacing / 2;
+        return noteY;
+    },
+    
+    _getBaseClefOffset(clefLocation) {
+        switch (clefLocation) {
+            case ClefLocation.MIDDLE:
+                return this._getVerticalOffsetBetweenClefs() / 2;
+            case ClefLocation.BOTTOM:
+                return this._getVerticalOffsetBetweenClefs();
+            default:
+                return 0;
+        }
+    },
+    
+    _getModifierVerticalOffset(note, clefLocation) {
+        let noteY = this._getBaseClefOffset(clefLocation);
+        noteY += Config.staff.verticalOffset;
+        const offsets = Config.note.modifiers.verticalOffsets[note.modifier];
+        noteY += note.offset <= 0 ? offsets.bottom : offsets.top;
+        noteY -= note.offset * Config.staff.verticalLineSpacing / 2;
+        return noteY;
     },
 
-    _drawLedgerLines(note, noteWidth, useBottomClef, xOffset) {
-        // Bottom helper lines (if any)
+    _drawLedgerLines(note, noteWidth, clefLocation, offsetX) {
+        // Bottom ledger lines (if any)
         for (let i = note.offset; i < -4; i++) {
-            this._drawLedgerLine(i, noteWidth, useBottomClef, xOffset);
+            this._drawLedgerLine(i, noteWidth, clefLocation, offsetX);
         }
-        // Top helper lines (if any)
+        // Top ledger lines (if any)
         for (let i = note.offset; i > 6; i--) {
-            this._drawLedgerLine(i, noteWidth, useBottomClef, xOffset);
+            this._drawLedgerLine(i, noteWidth, clefLocation, offsetX);
         }
     },
 
-    _drawLedgerLine(offset, noteWidth, useBottomClef, xOffset) {
+    _drawLedgerLine(offset, noteWidth, clefLocation, offsetX) {
         if (offset % 2 == 0) {
             return;
         }
         const w = noteWidth * Config.note.helperLineRatio;
-        const xLine = xOffset - (w - noteWidth) / 2;
-        let yLine = Config.staff.verticalOffset - (offset - 5) * Config.staff.verticalLineSpacing / 2;
-        if (useBottomClef) {
-            yLine += this._getVerticalOffsetBetweenClefs();
-        }
-        line(xLine, yLine, xLine + w, yLine);
+        const lineX = offsetX - (w - noteWidth) / 2;
+        let lineY = Config.staff.verticalOffset - (offset - 5) * Config.staff.verticalLineSpacing / 2;
+        lineY += this._getBaseClefOffset(clefLocation)
+        line(lineX, lineY, lineX + w, lineY);
     },
 
 };

@@ -1,15 +1,22 @@
 /* Game Logic */
 const Game = {
     
+    _eventListener: null,
+    
     _state: {
         state: null,
         levelNumber: 0,
         score: 0,
         currentNote: null,
         currentLevel: null,
+        selectableOptions: [],
         
         /* Indicates how far the current note has moved (goes from 0 to 1) */
         noteProgress: 0,
+    },
+    
+    init(eventListener) {
+        this._eventListener = eventListener;
     },
     
     start() {
@@ -81,7 +88,10 @@ const Game = {
     _transitionToNextNote() {
         this._state.currentNote = this._getRandomNote();
         this._state.noteProgress = 0;
+        this._state.selectableOptions = this._generateSelectableOptions();
         console.log("Current note: "+this.getCurrentNote().name);
+        console.log("Selectable options: "+this._state.selectableOptions.map(option => option.name).join(', '));
+        this._triggerEvent(GameEvent.OPTIONS_CHANGED);
     },
     
     _transitionToCompletedState() {
@@ -108,6 +118,13 @@ const Game = {
         return this._state.noteProgress;
     },
     
+    getClefPositionForCurrentNote() {
+        if (Game.hasTrebleClef() && Game.hasBassClef()) {
+            return this.getCurrentNote().clef === Clef.BASS ? ClefLocation.BOTTOM : ClefLocation.TOP;
+        }
+        return ClefLocation.MIDDLE;
+    },
+    
     _getLevelConfig() {
         return this._state.currentLevel;
     },
@@ -126,7 +143,51 @@ const Game = {
         return MusicUtils.getNoteFromName(noteName);
     },
     
-    onCorrectOptionSelected() {
+    _generateSelectableOptions() {
+        const currentNote = this.getCurrentNote();
+        const currentLevel = this._getLevelConfig();
+        const correctOption = MusicUtils.getNoteName(currentNote, currentLevel.useSimpleNames);
+        const otherOptions = this._getLevelsOtherNotes(currentLevel)
+            .map(note => MusicUtils.getNoteName(note, currentLevel.useSimpleNames))
+            .filter(noteName => noteName !== correctOption);
+            
+        let finalOptions = shuffle(otherOptions).slice(0, 5);
+        finalOptions.push(correctOption);
+        finalOptions = shuffle(finalOptions);
+        
+        return finalOptions.map(option => {
+            return {
+                name: option,
+                isCorrect: option === correctOption,
+            };
+        });
+    },
+    
+    _getLevelsOtherNotes(levelConfig) {
+        return (levelConfig.otherNotes || levelConfig.notes)
+            .map(noteName => MusicUtils.getNoteFromName(noteName));
+    },
+    
+    getSelectableOptions() {
+        return this._state.selectableOptions;
+    },
+    
+    onOptionSelected(index) {
+        const option = this._getOptionByIndex(index);
+        if (option.isCorrect) {
+            console.log("CORRECT");
+            this._onCorrectOptionSelected();
+        } else {
+            console.log("WRONG");
+            this._onWrongOptionSelected();
+        }
+    },
+    
+    _getOptionByIndex(index) {
+        return this._state.selectableOptions[index];
+    },
+    
+    _onCorrectOptionSelected() {
         if (!this.isRunning()) {
             return;
         }
@@ -141,4 +202,13 @@ const Game = {
         const factor = Math.max(0, Math.min(1, 1 - ((secondsTaken - Config.gracePeriodInSeconds) / (Config.secondsPerNote - Config.gracePeriodInSeconds))));
         return Math.ceil(factor * Config.pointsPerNote);
     },
+    
+    _onWrongOptionSelected() {
+        this._transitionToNextNote();
+    },
+    
+    _triggerEvent(eventName) {
+        this._eventListener(eventName);
+    },
+    
 };

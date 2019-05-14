@@ -33,6 +33,19 @@ const Config = {
             },
         },
         helperLineRatio: 1.5,
+        modifiers: {
+            verticalOffsets: {
+                [NoteModifier.SHARP]: {
+                    top: 28,
+                    bottom: 28,
+                },
+                [NoteModifier.FLAT]: {
+                    top: 15,
+                    bottom: 15,
+                },
+            },
+            horizontalOffsetToNote: 10,
+        },
     },
     
     levels: [

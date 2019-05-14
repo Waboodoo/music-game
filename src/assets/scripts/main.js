@@ -19,6 +19,8 @@ function preload() {
     Assets.images.timeSignature = AssetLoader.getImage('time-signature.png');
     Assets.images.bottomNote = AssetLoader.getImage('bottom-note.svg');
     Assets.images.topNote = AssetLoader.getImage('top-note.svg');
+    Assets.images.sharpSign = AssetLoader.getImage('sharp-sign.png');
+    Assets.images.flatSign = AssetLoader.getImage('flat-sign.png');
     
     // Background music
     Assets.music = AssetLoader.getSound('music.mp3');
@@ -26,32 +28,45 @@ function preload() {
 
 /* Canvas initialization */
 function setup() {
+    // Set up canvas
+    const canvas = createCanvas(Config.canvas.width, Config.canvas.height);
+    canvas.parent('canvasContainer');
+    frameRate(Config.frameRate);
+    
+    // Controller logic
     MusicPlayer.init(Assets.music);
-    GameUI.init((eventName) => {
+    GameUI.init((eventName, data) => {
         console.log(`UI event: ${eventName}`);
         switch (eventName) {
-            case 'toggleMusic': {
+            case GameUIEvent.TOGGLE_MUSIC: {
                 MusicPlayer.toggle();
                 break;
             }
-            case 'toggleGame': {
+            case GameUIEvent.TOGGLE_GAME: {
                 Game.togglePaused();
                 break;
             }
-            case 'nextLevel': {
+            case GameUIEvent.NEXT_LEVEL: {
                 Game.transitionToNextLevel();
                 break;
             }
-            case 'correctOptionSelected': {
-                Game.onCorrectOptionSelected();
+            case GameUIEvent.OPTION_SELECTED: {
+                Game.onOptionSelected(data.index);
                 break;
             }
-        };
+        }
     });
-    
-	const canvas = createCanvas(Config.canvas.width, Config.canvas.height);
-    canvas.parent('canvasContainer');
-    frameRate(Config.frameRate);
+    Game.init((eventName) => {
+        switch (eventName) {
+            case GameEvent.OPTIONS_CHANGED: {
+                GameUI.setOptions(
+                    Game.getSelectableOptions()
+                        .map(option => option.name)
+                );
+                break;
+            }
+        }
+    });
     
     Game.start();
 }
@@ -75,8 +90,6 @@ function draw() {
     
     // Draw animated musical elements
     if (Game.isRunning()) {
-        const currentNote = Game.getCurrentNote();
-        const drawNoteOnBottomStaff = currentNote.clef == Clef.BASS && Game.hasTrebleClef();
-        MusicDrawings.drawNote(currentNote, drawNoteOnBottomStaff, Game.getNoteProgress());
+        MusicDrawings.drawNote(Game.getCurrentNote(), Game.getClefPositionForCurrentNote(), Game.getNoteProgress());
     }
 }
