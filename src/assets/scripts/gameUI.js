@@ -55,7 +55,7 @@ const GameUI = {
     
     setOptions(options) {
         for (let i = 1; i <= 6; i++) {
-            select(`#option${i}`).html(options[i-1]);
+            select(`#optionchild${i}`).html(options[i-1]);
         }
     },
     
