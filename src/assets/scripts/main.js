@@ -84,7 +84,9 @@ function draw() {
         GameUI.drawLevelNumber(Game.getLevelNumber());
     }
     GameUI.setScore(Game.getScore());
+    GameUI.drawScore();
     GameUI.setLevelScore(Game.getLevelScore(), Game.getLevelCompletionScore());
+    GameUI.drawLevelScore();
     
     // Draw static musical elements
     MusicDrawings.drawStaffs(Game.hasTrebleClef(), Game.hasBassClef());

@@ -3,6 +3,7 @@ const GameUI = {
     _eventListener: null,
     
     _state: {
+        previousScore: 0,
         score: 0,
     },
     
@@ -72,29 +73,34 @@ const GameUI = {
     },
     
     setScore(score) {
-        this._state.score = score;
-        this._drawScore(score);
-
-        // TODO: If score changes from internal state, draw with animation
-        // -> Will require to add a tick() function that gets called from main.js on every tick, similar to game.js
+        if (score != this._state.score){
+            this._state.previousScore = this._state.score;
+            this._state.score = score;
+        }
     },
     
-    _drawScore(score) {
+    drawScore() {
         fill(255, 255, 255);
         textSize(30);
         textAlign(CENTER);
-        text(`${score}`, width / 2, 130);
+        var score = this._state.score;
+        var diff = score - this._state.previousScore;
+        stroke(diff >= 0 ? '#00AA00' : "#AA0000");
+        strokeWeight(5);
+        if (diff > 0) diff = `+${diff}`;
+        text(`${score} (${diff})`, width / 2, 130);
+        stroke("#000000");
+        strokeWeight(1);
     },
     
     setLevelScore(levelScore, levelCompletionScore) {
         this._state.levelScore = levelScore;
-        this._drawLevelScore(levelScore, levelCompletionScore);
-
-        // TODO: If score changes from internal state, draw with animation
-        // -> Will require to add a tick() function that gets called from main.js on every tick, similar to game.js
+        this._state.levelCompletionScore = levelCompletionScore;
     },
     
-    _drawLevelScore(levelScore, levelCompletionScore) {
+    drawLevelScore() {
+        var levelScore = this._state.levelScore;
+        var levelCompletionScore = this._state.levelCompletionScore;
         fill(255, 255, 255);
         textSize(30);
         textAlign(CENTER);
