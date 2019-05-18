@@ -7,6 +7,7 @@ const Game = {
         state: null,
         levelNumber: 0,
         score: 0,
+        levelScore: 0,
         currentNote: null,
         currentLevel: null,
         selectableOptions: [],
@@ -21,6 +22,7 @@ const Game = {
     
     start() {
         this._state.score = 0;
+        this._state.levelScore = 0;
         this._state.levelNumber = 0;
         this._state.state = GameState.RUNNING;
         this._transitionToNextLevel();
@@ -64,8 +66,9 @@ const Game = {
     },
     
     transitionToNextLevel() {
-        // TODO: Check if allowed
-        this._transitionToNextLevel();
+        if(this.getLevelScore() >=  this.getLevelCompletionScore()) {
+            this._transitionToNextLevel();
+        }
     },
     
     _transitionToNextLevel() {
@@ -75,6 +78,7 @@ const Game = {
         }
         
         this._state.levelNumber++;
+        this._state.levelScore = 0;
         this._state.noteProgress = 0;
         if (this._state.levelNumber > Config.levels.length) {
             this._transitionToCompletedState();
@@ -104,6 +108,14 @@ const Game = {
     
     getScore() {
         return this._state.score;
+    },
+    
+    getLevelScore() {
+        return this._state.levelScore;
+    },
+
+    getLevelCompletionScore() {
+        return this._getLevelConfig().completionScore;
     },
     
     getBackgroundName() {
@@ -194,6 +206,7 @@ const Game = {
         const points = this._calculatePointsForNote();
         console.log(`Gained ${points} points for correct answer`);
         this._state.score += points;
+        this._state.levelScore += points;
         this._transitionToNextNote();
     },
     
@@ -205,11 +218,13 @@ const Game = {
     
     _onWrongOptionSelected() {
         this._state.score = Math.max(this._state.score - Config.pointDeductionForWrongAnswer, 0);
+        this._state.levelScore = Math.max(this._state.levelScore - Config.pointDeductionForWrongAnswer, 0);
         this._transitionToNextNote();
     },
     
     _onNoOptionSelected() {
         this._state.score = Math.max(this._state.score - Config.pointDeductionForNoAnswer, 0);
+        this._state.levelScore = Math.max(this._state.levelScore - Config.pointDeductionForNoAnswer, 0);
         this._transitionToNextNote();
     },
     

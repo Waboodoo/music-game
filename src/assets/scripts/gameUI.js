@@ -44,6 +44,11 @@ const GameUI = {
     _getBackgroundImage(backgroundName) {
         return Assets.images[backgroundName];
     },
+
+    _setNextLevelVisible(isVisible) {
+        var display = isVisible ? 'table' : 'none';
+        select('#nextLevel').elt.style.display = display;
+    },
     
     drawLevelNumber(levelNumber) {
         this._drawMainText(`Level ${levelNumber}`);
@@ -79,6 +84,22 @@ const GameUI = {
         textSize(30);
         textAlign(CENTER);
         text(`${score}`, width / 2, 130);
+    },
+    
+    setLevelScore(levelScore, levelCompletionScore) {
+        this._state.levelScore = levelScore;
+        this._drawLevelScore(levelScore, levelCompletionScore);
+
+        // TODO: If score changes from internal state, draw with animation
+        // -> Will require to add a tick() function that gets called from main.js on every tick, similar to game.js
+    },
+    
+    _drawLevelScore(levelScore, levelCompletionScore) {
+        fill(255, 255, 255);
+        textSize(30);
+        textAlign(CENTER);
+        text(`${levelScore} / ${levelCompletionScore}`, width / 2, 180);
+        this._setNextLevelVisible(levelScore >= levelCompletionScore);
     },
     
 };
