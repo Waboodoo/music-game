@@ -2,6 +2,10 @@ const GameUI = {
     
     _eventListener: null,
     
+    _state: {
+        score: 0,
+    },
+    
     init(eventListener) {
         this._eventListener = eventListener;
         this._bindUIElements();
@@ -62,7 +66,15 @@ const GameUI = {
         text(message, width / 2, 80);
     },
     
-    drawScore(score) {
+    setScore(score) {
+        this._state.score = score;
+        this._drawScore(score);
+
+        // TODO: If score changes from internal state, draw with animation
+        // -> Will require to add a tick() function that gets called from main.js on every tick, similar to game.js
+    },
+    
+    _drawScore(score) {
         fill(255, 255, 255);
         textSize(30);
         textAlign(CENTER);

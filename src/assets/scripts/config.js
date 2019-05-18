@@ -4,6 +4,7 @@ const Config = {
     secondsPerNote: 7,
     gracePeriodInSeconds: 1,
     pointsPerNote: 10,
+    pointDeductionForWrongAnswer: 2,
     
     canvas: {
         width: 1024,

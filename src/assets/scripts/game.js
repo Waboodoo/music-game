@@ -204,6 +204,7 @@ const Game = {
     },
     
     _onWrongOptionSelected() {
+        this._state.score = Math.max(this._state.score - Config.pointDeductionForWrongAnswer, 0);
         this._transitionToNextNote();
     },
     
