@@ -55,7 +55,7 @@ const Game = {
     _advanceProgress() {
         this._state.noteProgress += this._getProgressStepSize();
         if (this._state.noteProgress >= 1) {
-            this._transitionToNextNote();
+            this._onNoOptionSelected();
         }
     },
     
@@ -205,6 +205,11 @@ const Game = {
     
     _onWrongOptionSelected() {
         this._state.score = Math.max(this._state.score - Config.pointDeductionForWrongAnswer, 0);
+        this._transitionToNextNote();
+    },
+    
+    _onNoOptionSelected() {
+        this._state.score = Math.max(this._state.score - Config.pointDeductionForNoAnswer, 0);
         this._transitionToNextNote();
     },
     
