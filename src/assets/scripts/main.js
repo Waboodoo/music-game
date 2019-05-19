@@ -21,22 +21,28 @@ function preload() {
     Assets.images.topNote = AssetLoader.getImage('top-note.svg');
     Assets.images.sharpSign = AssetLoader.getImage('sharp-sign.png');
     Assets.images.flatSign = AssetLoader.getImage('flat-sign.png');
-    
-    // Background music
-    Assets.music = AssetLoader.getSound('music.mp3');
 }
 
 /* Canvas initialization */
 function setup() {
+    // Background music
+    Assets.music = AssetLoader.getSound('music.mp3');
+    
     // Set up canvas
     const canvas = createCanvas(Config.canvas.width, Config.canvas.height);
     canvas.parent('canvasContainer');
     frameRate(Config.frameRate);
     
     // Controller logic
-    MusicPlayer.init(Assets.music);
+    MusicPlayer.init(Assets.music, (eventName) => {
+        switch (eventName) {
+            case MusicEvent.MUSIC_STATE_CHANGED: {
+                GameUI.setMusicState(MusicPlayer.isPlaying());
+                break;
+            }
+        }
+    });
     GameUI.init((eventName, data) => {
-        console.log(`UI event: ${eventName}`);
         switch (eventName) {
             case GameUIEvent.TOGGLE_MUSIC: {
                 MusicPlayer.toggle();
@@ -65,6 +71,11 @@ function setup() {
                 );
                 break;
             }
+            case GameEvent.GAME_STATE_CHANGED: {
+                GameUI.setGameButtonState(Game.isRunning());
+                GameUI.setOptionsVisibility(Game.isRunning());
+                break;
+            }
         }
     });
     
@@ -77,22 +88,23 @@ function draw() {
     Game.tick();
     
     // Draw UI
-    GameUI.resetCanvas(Game.getBackgroundName());
+    GameUI.resetCanvas(Game.getColorStyle());
     if (Game.isComplete()) {
         GameUI.drawCompleteState();
     } else {
         GameUI.drawLevelNumber(Game.getLevelNumber());
     }
-    GameUI.setScore(Game.getScore());
+    GameUI.setTotalScore(Game.getTotalScore());
     GameUI.drawScore();
     GameUI.setLevelScore(Game.getLevelScore(), Game.getLevelCompletionScore());
     GameUI.drawLevelScore();
+    GameUI.setNextLevelVisible(Game.getLevelScore() >= Game.getLevelCompletionScore());
     
     // Draw static musical elements
     MusicDrawings.drawStaffs(Game.hasTrebleClef(), Game.hasBassClef());
     
     // Draw animated musical elements
-    if (Game.isRunning()) {
+    if (Game.isRunning() && Game.isNoteVisible()) {
         MusicDrawings.drawNote(Game.getCurrentNote(), Game.getClefPositionForCurrentNote(), Game.getNoteProgress());
     }
 }

@@ -14,6 +14,11 @@ const GameState = {
     COMPLETE: 'complete',
 };
 
+const NoteState = {
+    VISIBLE: 'visible',
+    WAITING: 'waiting',
+};
+
 const ClefLocation = {
     TOP: 'top',
     MIDDLE: 'middle',
@@ -29,4 +34,10 @@ const GameUIEvent = {
 
 const GameEvent = {
     OPTIONS_CHANGED: 'optionsChanged',
+    GAME_STATE_CHANGED: 'gameStateChanged',
+    SCORE_CHANGED: 'scoreChanged',
+};
+
+const MusicEvent = {
+    MUSIC_STATE_CHANGED: 'musicStateChanged',
 };

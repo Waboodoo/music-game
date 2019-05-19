@@ -4,7 +4,7 @@ const GameUI = {
     
     _state: {
         previousScore: 0,
-        score: 0,
+        totalScore: 0,
     },
     
     init(eventListener) {
@@ -37,18 +37,22 @@ const GameUI = {
         this._eventListener(eventName, data);
     },
     
-    resetCanvas(backgroundName) {
+    resetCanvas(colorStyle) {
         clear();
-        background(this._getBackgroundImage(backgroundName));
+        background(this._getBackgroundImage(colorStyle));
+        select('#canvasContainer').class(`colorStyle${colorStyle}`);
     },
     
-    _getBackgroundImage(backgroundName) {
-        return Assets.images[backgroundName];
+    _getBackgroundImage(colorStyle) {
+        return Assets.images[`background${colorStyle}`];
     },
 
-    _setNextLevelVisible(isVisible) {
-        var display = isVisible ? 'table' : 'none';
-        select('#nextLevel').elt.style.display = display;
+    setNextLevelVisible(isVisible) {
+        if (isVisible) {
+            select('#nextLevel').addClass('visible');
+        } else {
+            select('#nextLevel').removeClass('visible');
+        }
     },
     
     drawLevelNumber(levelNumber) {
@@ -61,7 +65,18 @@ const GameUI = {
     
     setOptions(options) {
         for (let i = 1; i <= 6; i++) {
-            select(`#optionchild${i}`).html(options[i-1]);
+            select(`#optionText${i}`).html(options[i-1]);
+        }
+    },
+    
+    setOptionsVisibility(isVisible) {
+        for (let i = 1; i <= 6; i++) {
+            const index = i - 1;
+            if (isVisible) {
+                select(`#option${i}`).addClass('visible');
+            } else {
+                select(`#option${i}`).removeClass('visible');
+            }
         }
     },
     
@@ -69,13 +84,13 @@ const GameUI = {
         fill(0, 0, 0);
         textSize(36);
         textAlign(CENTER);
-        text(message, width / 2, 80);
+        text(message, width / 2, 60);
     },
     
-    setScore(score) {
-        if (score != this._state.score){
-            this._state.previousScore = this._state.score;
-            this._state.score = score;
+    setTotalScore(totalScore) {
+        if (totalScore != this._state.totalScore){
+            this._state.previousScore = this._state.totalScore;
+            this._state.totalScore = totalScore;
         }
     },
     
@@ -83,12 +98,12 @@ const GameUI = {
         fill(255, 255, 255);
         textSize(30);
         textAlign(CENTER);
-        var score = this._state.score;
-        var diff = score - this._state.previousScore;
+        const totalScore = this._state.totalScore;
+        const diff = totalScore - this._state.previousScore;
         stroke(diff >= 0 ? '#00AA00' : "#AA0000");
         strokeWeight(5);
-        if (diff > 0) diff = `+${diff}`;
-        text(`${score} (${diff})`, width / 2, 130);
+        const diffText = diff > 0 ? `+${diff}` : `${diff}`;
+        text(`${totalScore} (${diffText})`, width / 2, 110);
         stroke("#000000");
         strokeWeight(1);
     },
@@ -99,13 +114,28 @@ const GameUI = {
     },
     
     drawLevelScore() {
-        var levelScore = this._state.levelScore;
-        var levelCompletionScore = this._state.levelCompletionScore;
+        const levelScore = this._state.levelScore;
+        const levelCompletionScore = this._state.levelCompletionScore;
         fill(255, 255, 255);
         textSize(30);
         textAlign(CENTER);
-        text(`${levelScore} / ${levelCompletionScore}`, width / 2, 180);
-        this._setNextLevelVisible(levelScore >= levelCompletionScore);
+        text(`${levelScore} / ${levelCompletionScore}`, width / 2, 160);
+    },
+    
+    setMusicState(isPlaying) {
+        if (isPlaying) {
+            select(`#musicToggle`).addClass('playing');
+        } else {
+            select(`#musicToggle`).removeClass('playing');
+        }
+    },
+    
+    setGameButtonState(isRunning) {
+        if (isRunning) {
+            select(`#gameToggle`).removeClass('paused');
+        } else {
+            select(`#gameToggle`).addClass('paused');
+        }
     },
     
 };

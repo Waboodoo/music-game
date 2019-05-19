@@ -6,12 +6,13 @@ const Game = {
     _state: {
         state: null,
         levelNumber: 0,
-        score: 0,
+        totalScore: 0,
         levelScore: 0,
         currentNote: null,
         currentLevel: null,
         selectableOptions: [],
         
+        noteState: NoteState.VISIBLE,
         /* Indicates how far the current note has moved (goes from 0 to 1) */
         noteProgress: 0,
     },
@@ -21,11 +22,15 @@ const Game = {
     },
     
     start() {
-        this._state.score = 0;
-        this._state.levelScore = 0;
+        this._setScore(0, 0);
         this._state.levelNumber = 0;
-        this._state.state = GameState.RUNNING;
-        this._transitionToNextLevel();
+        this._setGameState(GameState.RUNNING);
+        this.transitionToNextLevel();
+    },
+    
+    _setGameState(state) {
+        this._state.state = state;
+        this._triggerEvent(GameEvent.GAME_STATE_CHANGED);
     },
     
     tick() {
@@ -37,12 +42,10 @@ const Game = {
     
     togglePaused() {
         if (this.isRunning()) {
-            this._state.state = GameState.PAUSED;
-            console.log("Game is paused");
+            this._setGameState(GameState.PAUSED);
         } else {
             this._transitionToNextNote();
-            this._state.state = GameState.RUNNING;
-            console.log("Game is resumed");
+            this._setGameState(GameState.RUNNING);
         }
     },
     
@@ -55,23 +58,37 @@ const Game = {
     },
     
     _advanceProgress() {
-        this._state.noteProgress += this._getProgressStepSize();
-        if (this._state.noteProgress >= 1) {
-            this._onNoOptionSelected();
+        switch (this._state.noteState) {
+            case NoteState.WAITING: {
+                this._state.noteProgress += this._getWaitingProgressStepSize();
+                if (this._state.noteProgress >= 1) {
+                    this._showNote();
+                }
+                break;
+            }
+            case NoteState.VISIBLE: {
+                this._state.noteProgress += this._getVisibleProgressStepSize();
+                if (this._state.noteProgress >= 1) {
+                    this._onNoOptionSelected();
+                }
+                break;
+            }
         }
     },
     
-    _getProgressStepSize() {
-        return 1 / Config.frameRate / Config.secondsPerNote;
+    _getVisibleProgressStepSize() {
+        return this._secondsToStepProgressStep(Config.secondsPerNote);
+    },
+    
+    _getWaitingProgressStepSize() {
+        return this._secondsToStepProgressStep(Config.secondsBetweenNotes);
+    },
+    
+    _secondsToStepProgressStep(seconds) {
+        return 1 / Config.frameRate / seconds;
     },
     
     transitionToNextLevel() {
-        if(this.getLevelScore() >=  this.getLevelCompletionScore()) {
-            this._transitionToNextLevel();
-        }
-    },
-    
-    _transitionToNextLevel() {
         if (this._state.state === GameState.COMPLETE) {
             this.start();
             return;
@@ -86,28 +103,32 @@ const Game = {
         }
         this._state.currentLevel = Config.levels[this._state.levelNumber - 1];
         this._transitionToNextNote();
-        this._state.state = GameState.RUNNING;
+        this._setGameState(GameState.RUNNING);
     },
     
     _transitionToNextNote() {
         this._state.currentNote = this._getRandomNote();
         this._state.noteProgress = 0;
+        this._state.noteState = NoteState.WAITING;
         this._state.selectableOptions = this._generateSelectableOptions();
-        console.log("Current note: "+this.getCurrentNote().name);
-        console.log("Selectable options: "+this._state.selectableOptions.map(option => option.name).join(', '));
         this._triggerEvent(GameEvent.OPTIONS_CHANGED);
     },
     
+    _showNote() {
+        this._state.noteProgress = 0;
+        this._state.noteState = NoteState.VISIBLE;
+    },
+    
     _transitionToCompletedState() {
-        this._state.state = GameState.COMPLETE;
+        this._setGameState(GameState.COMPLETE);
     },
     
     getLevelNumber() {
         return this._state.levelNumber;
     },
     
-    getScore() {
-        return this._state.score;
+    getTotalScore() {
+        return this._state.totalScore;
     },
     
     getLevelScore() {
@@ -118,12 +139,16 @@ const Game = {
         return this._getLevelConfig().completionScore;
     },
     
-    getBackgroundName() {
-        return this._getLevelConfig().background;
+    getColorStyle() {
+        return this._getLevelConfig().colorStyle;
     },
     
     getCurrentNote() {
         return this._state.currentNote;
+    },
+    
+    isNoteVisible() {
+        return this._state.noteState === NoteState.VISIBLE;
     },
     
     getNoteProgress() {
@@ -187,10 +212,8 @@ const Game = {
     onOptionSelected(index) {
         const option = this._getOptionByIndex(index);
         if (option.isCorrect) {
-            console.log("CORRECT");
             this._onCorrectOptionSelected();
         } else {
-            console.log("WRONG");
             this._onWrongOptionSelected();
         }
     },
@@ -204,10 +227,8 @@ const Game = {
             return;
         }
         const points = this._calculatePointsForNote();
-        console.log(`Gained ${points} points for correct answer`);
-        this._state.score += points;
-        this._state.levelScore += points;
-        this._transitionToNextNote();
+        this._increaseScore(points);
+        this._prepareForNextNote();
     },
     
     _calculatePointsForNote() {
@@ -217,15 +238,32 @@ const Game = {
     },
     
     _onWrongOptionSelected() {
-        this._state.score = Math.max(this._state.score - Config.pointDeductionForWrongAnswer, 0);
-        this._state.levelScore = Math.max(this._state.levelScore - Config.pointDeductionForWrongAnswer, 0);
-        this._transitionToNextNote();
+        this._decreaseScore(Config.pointDeductionForWrongAnswer);
+        this._prepareForNextNote();
     },
     
     _onNoOptionSelected() {
-        this._state.score = Math.max(this._state.score - Config.pointDeductionForNoAnswer, 0);
-        this._state.levelScore = Math.max(this._state.levelScore - Config.pointDeductionForNoAnswer, 0);
+        this._decreaseScore(Config.pointDeductionForNoAnswer);
+        this._prepareForNextNote();
+    },
+    
+    _prepareForNextNote() {
+        this._state.noteState = NoteState.WAITING;
         this._transitionToNextNote();
+    },
+    
+    _increaseScore(amount) {
+        this._setScore(this._state.totalScore + amount, this._state.levelScore + amount);
+    },
+    
+    _decreaseScore(amount) {
+        this._increaseScore(-amount);
+    },
+    
+    _setScore(totalScore, levelScore) {
+        this._state.totalScore = Math.max(totalScore, 0);
+        this._state.levelScore = Math.max(levelScore, 0);
+        this._triggerEvent(GameEvent.SCORE_CHANGED);
     },
     
     _triggerEvent(eventName) {

@@ -1,9 +1,12 @@
 const MusicPlayer = {
     
+    _eventListener: null,
+    
     _music: null,
     
-    init(music) {
+    init(music, eventListener) {
         this._music = music;
+        this._eventListener = eventListener;
     },
     
     isPlaying() {
@@ -16,6 +19,11 @@ const MusicPlayer = {
         } else {
             this._music.loop();
         }
+        this._triggerEvent(MusicEvent.MUSIC_STATE_CHANGED);
+    },
+    
+    _triggerEvent(eventName) {
+        this._eventListener(eventName);
     },
     
 };

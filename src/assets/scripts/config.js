@@ -2,51 +2,53 @@ const Config = {
     frameRate: 30,
     
     secondsPerNote: 7,
+    secondsBetweenNotes: 0.5,
     gracePeriodInSeconds: 1,
+    
     pointsPerNote: 10,
     pointDeductionForWrongAnswer: 2,
     pointDeductionForNoAnswer: 1,
     
     canvas: {
-        width: 1024,
-        height: 768,
+        width: 1024, /* pixels */
+        height: 768, /* pixels */
     },
     
     clef: {
-        horizontalOffset: 20,
+        horizontalOffset: 20, /* pixels */
     },
     
     staff: {
-        verticalOffset: 200,
-        verticalLineSpacing: 20,
-        verticalSpacing: 100,
+        verticalOffset: 230, /* pixels */
+        verticalLineSpacing: 20, /* pixels */
+        verticalSpacing: 80, /* pixels */
     },
     
     note: {
-        horizontalOffset: 150,
+        horizontalOffset: 150, /* pixels */
         verticalOffsets: {
             [Clef.TREBLE]: {
-                top: 39,
-                bottom: -18,
+                top: 39, /* pixels */
+                bottom: -18, /* pixels */
             },
             [Clef.BASS]: {
-                top: 39,
-                bottom: -18,
+                top: 39, /* pixels */
+                bottom: -18, /* pixels */
             },
         },
         helperLineRatio: 1.5,
         modifiers: {
             verticalOffsets: {
                 [NoteModifier.SHARP]: {
-                    top: 28,
-                    bottom: 28,
+                    top: 28, /* pixels */
+                    bottom: 28, /* pixels */
                 },
                 [NoteModifier.FLAT]: {
-                    top: 15,
-                    bottom: 15,
+                    top: 15, /* pixels */
+                    bottom: 15, /* pixels */
                 },
             },
-            horizontalOffsetToNote: 10,
+            horizontalOffsetToNote: 10, /* pixels */
         },
     },
     
@@ -58,7 +60,7 @@ const Config = {
             notes: ["a'", "h'", "c''"],
             otherNotes: ["d'", "e'", "f'", "g'", "a'", "h'", "c''"],
             useSimpleNames: true,
-            background: 'background1',
+            colorStyle: 1,
             completionScore: 200,
         },
         /* Level 2 */
@@ -68,7 +70,7 @@ const Config = {
             notes: ["g'", "a'", "h'", "c''", "d''"],
             otherNotes: ["d'", "e'", "f'", "g'", "a'", "h'", "c''"],
             useSimpleNames: true,
-            background: 'background1',
+            colorStyle: 1,
             completionScore: 200,
         },
         /* Level 3 */
@@ -77,7 +79,7 @@ const Config = {
             bassClef: false,
             notes: ["f'", "g'", "a'", "h'", "c''", "d''"],
             otherNotes: ["d'", "e'", "f'", "g'", "a'", "h'", "c''"],
-            background: 'background1',
+            colorStyle: 1,
             completionScore: 200,
         },
         /* Level 4 */
@@ -86,7 +88,7 @@ const Config = {
             bassClef: false,
             notes: ["e'", "f'", "g'", "a'", "h'", "c''", "d''", "e''", "f''"],
             otherNotes: ["c'", "d'", "e'", "f'", "g'", "a'", "h'", "c''", "d''", "e''", "f''", "g''", "a''", "h''", "c'''"],
-            background: 'background1',
+            colorStyle: 1,
             completionScore: 250,
         },
         /* Level 5 */
@@ -95,7 +97,7 @@ const Config = {
             bassClef: false,
             notes: ["d'", "e'", "f'", "g'", "a'", "h'", "c''", "d''", "e''", "f''", "g''"],
             otherNotes: ["c'", "d'", "e'", "f'", "g'", "a'", "h'", "c''", "d''", "e''", "f''", "g''", "a''", "h''", "c'''"],
-            background: 'background1',
+            colorStyle: 1,
             completionScore: 250,
         },
         /* Level 6 */
@@ -104,7 +106,7 @@ const Config = {
             bassClef: false,
             notes: ["c'", "d'", "e'", "f'", "g'", "a'", "h'", "c''", "d''", "e''", "f''", "g''", "a''", "h''", "c'''"],
             otherNotes: ["c'", "d'", "e'", "f'", "g'", "a'", "h'", "c''", "d''", "e''", "f''", "g''", "a''", "h''", "c'''"],
-            background: 'background1',
+            colorStyle: 1,
             completionScore: 250,
         },
         /* Level 7 */
@@ -113,7 +115,7 @@ const Config = {
             bassClef: true,
             notes: ["g", "a", "h", "c'"],
             otherNotes: ["c", "d", "e", "f", "g", "a", "h", "c'"],
-            background: 'background2',
+            colorStyle: 2,
             completionScore: 200,
         },
         /* Level 8 */
@@ -122,7 +124,7 @@ const Config = {
             bassClef: true,
             notes: ["c", "d", "e", "f", "g", "a", "h", "c'"],
             otherNotes: ["c", "d", "e", "f", "g", "a", "h", "c'"],
-            background: 'background2',
+            colorStyle: 2,
             completionScore: 200,
         },
         /* Level 9 */
@@ -131,7 +133,7 @@ const Config = {
             bassClef: true,
             notes: ["G", "A", "H", "c", "d", "e", "f", "g", "a", "h", "c'"],
             otherNotes: ["C", "D", "E", "F", "G", "A", "H", "c", "d", "e", "f", "g", "a", "h", "c'"],
-            background: 'background2',
+            colorStyle: 2,
             completionScore: 250,
         },
         /* Level 10 */
@@ -139,7 +141,7 @@ const Config = {
             trebleClef: false,
             bassClef: true,
             notes: ["C", "D", "E", "F", "G", "A", "H", "c", "d", "e", "f", "g", "a", "h", "c'"],
-            background: 'background2',
+            colorStyle: 2,
             completionScore: 250,
         },
         /* Level 11 */
@@ -147,7 +149,7 @@ const Config = {
             trebleClef: false,
             bassClef: true,
             notes: ["G'", "A'", "H'", "C", "D", "E", "F", "G", "A", "H"],
-            background: 'background2',
+            colorStyle: 2,
             completionScore: 200,
         },
         /* Level 12 */
@@ -155,7 +157,7 @@ const Config = {
             trebleClef: false,
             bassClef: true,
             notes: ["G'", "A'", "H'", "C", "D", "E", "F", "G", "A", "H"],
-            background: 'background2',
+            colorStyle: 2,
             completionScore: 200,
         },
         /* Level 13 */
@@ -163,7 +165,7 @@ const Config = {
             trebleClef: false,
             bassClef: true,
             notes: ["G'", "A'", "H'", "C", "D", "E", "F", "G", "A", "H", "c", "d", "e", "f", "g", "a", "h", "c'"],
-            background: 'background2',
+            colorStyle: 2,
             completionScore: 250,
         },
         /* Level 14 */
@@ -171,7 +173,7 @@ const Config = {
             trebleClef: true,
             bassClef: true,
             notes: ["G'", "A'", "H'", "C", "D", "E", "F", "G", "A", "H", "c", "d", "e", "f", "g", "a", "h", "c'", "d'", "e'", "f'", "g'", "a'", "h'", "c''", "d''", "e''", "f''", "g''", "a''", "h''", "c'''"],
-            background: 'background3',
+            colorStyle: 3,
             completionScore: 300,
         },
         /* Level 15 */
@@ -179,7 +181,7 @@ const Config = {
             trebleClef: true,
             bassClef: false,
             notes: ["c'", "cis'", "d'", "dis'", "e'", "eis'", "f'", "fis'", "g'", "gis'", "a'", "ais'", "h'", "his'", "c''", "cis''"],
-            background: 'background4',
+            colorStyle: 4,
             completionScore: 250,
         },
         /* Level 16 */
@@ -187,7 +189,7 @@ const Config = {
             trebleClef: false,
             bassClef: true,
             notes: ["G'", "Gis'", "A'", "Ais'", "H'", "His'", "C", "Cis", "D", "Dis", "E", "Eis", "F", "Fis", "G", "Gis", "A", "Ais", "H", "His", "c", "cis", "d", "dis", "e", "eis", "f", "fis", "g", "gis", "a", "ais", "h", "his", "c'", "cis'", "d'", "dis'", "e'", "eis'", "f'", "fis'"],
-            background: 'background4',
+            colorStyle: 4,
             completionScore: 250,
         },
         /* Level 17 */
@@ -195,7 +197,7 @@ const Config = {
             trebleClef: true,
             bassClef: true,
             notes: ["G'", "Gis'", "A'", "Ais'", "H'", "His'", "C", "Cis", "D", "Dis", "E", "Eis", "F", "Fis", "G", "Gis", "A", "Ais", "H", "His", "c", "cis", "d", "dis", "e", "eis", "f", "fis", "g", "gis", "a", "ais", "h", "his", "c'", "cis'", "d'", "dis'", "e'", "eis'", "f'", "fis'", "g'", "gis'", "a'", "ais'", "h'", "his'", "c''", "cis''", "d''", "dis''", "e''", "eis''", "f''", "fis''", "g''", "gis''", "a''", "ais''", "h''", "his''", "c'''", "cis'''"],
-            background: 'background3',
+            colorStyle: 3,
             completionScore: 300,
         },
         /* Level 18 */
@@ -203,7 +205,7 @@ const Config = {
             trebleClef: true,
             bassClef: false,
             notes: ["ces'", "c'", "des'", "d'", "es'", "e'", "fes'", "f'", "ges'", "g'", "as'", "a'", "b'", "h'", "ces''", "c''", "des''", "d''", "es''", "e''", "fes''", "f''", "ges''", "g''", "as''", "a''", "b''", "h''", "ces'''"],
-            background: 'background5',
+            colorStyle: 5,
             completionScore: 250,
         },
         /* Level 19 */
@@ -211,7 +213,7 @@ const Config = {
             trebleClef: false,
             bassClef: true,
             notes: ["Ges'", "G'", "As'", "A'", "B'", "H'", "Ces", "C", "Des", "D", "Es", "E", "Fes", "F", "Ges", "G", "As", "A", "B", "H", "ces", "c", "des", "d", "es", "e", "fes", "f", "ges", "g", "as", "a", "b", "h", "ces'", "c'", "des'", "d'", "es'", "e", "fes'"],
-            background: 'background5',
+            colorStyle: 5,
             completionScore: 250,
         },
         /* Level 20 */
@@ -219,7 +221,7 @@ const Config = {
             trebleClef: true,
             bassClef: true,
             notes: ["G'", "Gis'", "As'", "A'", "Ais'", "B'", "H'", "His'", "Ces", "C", "Cis", "Des", "D", "Dis", "Es", "E", "Eis", "Fes", "F", "Fis", "Ges", "G", "Gis", "As", "A", "Ais", "B", "H", "His", "ces", "c", "cis", "des", "d", "dis", "es", "e", "eis", "fes", "f", "fis", "ges", "g", "gis", "as", "a", "ais", "b", "h", "his", "ces'", "c'", "cis'", "des'", "d'", "dis'", "es'", "e'", "eis'", "fes'", "f'", "fis'", "ges'", "g'", "gis'", "as'", "a'", "ais'", "b'", "h'", "his'", "ces''", "c''", "cis''", "des''", "d''", "dis''", "es''", "e''", "eis''", "fes''", "f''", "fis''", "ges''", "g''", "gis''", "as''", "a''", "ais''", "b''", "h''", "his''", "ces'''", "c'''", "cis'''"],
-            background: 'background3',
+            colorStyle: 3,
             completionScore: 300,
         },
         

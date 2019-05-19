@@ -31,18 +31,28 @@ body {
     color: #ffffff;
     border-radius: 50%;
     border: 1px solid #ffffff;
-    background: #0044CC;
     width: 50px;
     height: 50px;
     cursor: pointer;
+    display: none;
+}
+.roundButton.visible {
     display: table;
 }
-.roundButton:hover {
-    background: #0055EE;
-}
-.roundButton span{
+.roundButton > .text {
     display: table-cell;
     vertical-align: middle;
+    user-select: none;
+}
+.roundButton > .icon {
+    display: block;
+    margin: 10px;
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url(../images/music-mute.svg);
 }
 
 #musicToggle {
@@ -50,11 +60,23 @@ body {
     bottom: 20px;
     left: 20px;
 }
+#musicToggle > .icon {
+    background-image: url(../images/music-mute.svg);
+}
+#musicToggle.playing > .icon {
+    background-image: url(../images/music-play.svg);
+}
 
 #gameToggle {
     position: absolute;
     bottom: 20px;
     right: 20px;
+}
+#gameToggle > .icon {
+    background-image: url(../images/game-pause.svg);
+}
+#gameToggle.paused > .icon {
+    background-image: url(../images/game-play.svg);
 }
 
 #nextLevel {
@@ -80,4 +102,51 @@ body {
 #options .row .option {
     width: 30%;
     flex: 1;
+    margin: 10px;
+}
+
+/* Level colors */
+.colorStyle1 .roundButton {
+    background: rgb(0,85,237);
+    background: linear-gradient(90deg, rgba(0,85,237,1) 0%, rgba(9,9,121,1) 50%, rgba(0,85,237,1) 100%);
+}
+.colorStyle1 .roundButton:hover {
+    background: rgb(0,91,255);
+    background: linear-gradient(90deg, rgba(0,91,255,1) 0%, rgba(18,18,205,1) 50%, rgba(0,91,255,1) 100%);
+}
+
+.colorStyle2 .roundButton {
+    background: rgb(209,14,0);
+    background: linear-gradient(90deg, rgba(209,14,0,1) 0%, rgba(140,5,0,1) 50%, rgba(209,14,0,1) 100%);
+}
+.colorStyle2 .roundButton:hover {
+    background: rgb(255,17,0);
+    background: linear-gradient(90deg, rgba(255,17,0,1) 0%, rgba(186,7,0,1) 50%, rgba(255,17,0,1) 100%);
+}
+
+.colorStyle3 .roundButton {
+    background: rgb(163,26,166);
+    background: linear-gradient(90deg, rgba(163,26,166,1) 0%, rgba(109,14,111,1) 50%, rgba(163,26,166,1) 100%);
+}
+.colorStyle3 .roundButton:hover {
+    background: rgb(224,38,228);
+    background: linear-gradient(90deg, rgba(224,38,228,1) 0%, rgba(153,20,156,1) 50%, rgba(224,38,228,1) 100%);
+}
+
+.colorStyle4 .roundButton {
+    background: rgb(64,177,41);
+    background: linear-gradient(90deg, rgba(64,177,41,1) 0%, rgba(42,122,25,1) 50%, rgba(64,177,41,1) 100%);
+}
+.colorStyle4 .roundButton:hover {
+    background: rgb(80,221,51);
+    background: linear-gradient(90deg, rgba(80,221,51,1) 0%, rgba(61,175,36,1) 50%, rgba(80,221,51,1) 100%);
+}
+
+.colorStyle5 .roundButton {
+    background: rgb(90,24,189);
+    background: linear-gradient(90deg, rgba(90,24,189,1) 0%, rgba(60,14,131,1) 50%, rgba(90,24,189,1) 100%);
+}
+.colorStyle5 .roundButton:hover {
+    background: rgb(108,30,224);
+    background: linear-gradient(90deg, rgba(108,30,224,1) 0%, rgba(76,17,166,1) 50%, rgba(108,30,224,1) 100%);
 }
