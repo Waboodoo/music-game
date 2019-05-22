@@ -22,6 +22,9 @@ const GameUI = {
         select('#nextLevel').mouseClicked(() => {
             this._triggerEvent(GameUIEvent.NEXT_LEVEL);
         });
+        select('#theoryButton').mouseClicked(() => {
+            this._triggerEvent(GameUIEvent.THEORY);
+        });
         
         for (let i = 1; i <= 6; i++) {
             const index = i - 1;
@@ -47,11 +50,21 @@ const GameUI = {
         return Assets.images[`background${colorStyle}`];
     },
 
-    setNextLevelVisible(isVisible) {
+    setNextLevelVisible(isVisible, isRestart) {
         if (isVisible) {
-            select('#nextLevel').addClass('visible');
+            const button = select('#nextLevel');
+            button.addClass('visible');
+            select('.text', button).html(isRestart ? 'Neustart' : 'Nächstes Level');
         } else {
             select('#nextLevel').removeClass('visible');
+        }
+    },
+    
+    setPauseButtonVisible(isVisible) {
+        if (isVisible) {
+            select('#gameToggle').addClass('visible');
+        } else {
+            select('#gameToggle').removeClass('visible');
         }
     },
     
@@ -136,6 +149,18 @@ const GameUI = {
         } else {
             select(`#gameToggle`).addClass('paused');
         }
+    },
+    
+    showTheory(uri) {
+        const frame = select(`#theoryFrame`);
+        frame.addClass('visible');
+        frame.attribute('data', uri);
+        select('.text', `#theoryButton`).html('OK');
+    },
+    
+    hideTheory() {
+        select(`#theoryFrame`).removeClass('visible');
+        select('.text', `#theoryButton`).html('Theorie');
     },
     
 };

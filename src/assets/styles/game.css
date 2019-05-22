@@ -79,6 +79,16 @@ body {
     background-image: url(../images/game-play.svg);
 }
 
+#theoryButton {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    min-width: 120px;
+}
+#theoryButton.active {
+    font-weight: bold;
+}
+
 #nextLevel {
     position: absolute;
     top: 20px;
@@ -89,8 +99,6 @@ body {
 #options {
     position: absolute;
     width: 600px;
-    
-    
     left: 212px;
     bottom: 20px;
 }
@@ -103,6 +111,7 @@ body {
     width: 30%;
     flex: 1;
     margin: 10px;
+    font-size: 18px;
 }
 
 /* Level colors */
@@ -149,4 +158,20 @@ body {
 .colorStyle5 .roundButton:hover {
     background: rgb(108,30,224);
     background: linear-gradient(90deg, rgba(108,30,224,1) 0%, rgba(76,17,166,1) 50%, rgba(108,30,224,1) 100%);
+}
+
+/* Theory */
+#theoryFrame {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background: #333333;
+}
+#theoryFrame.visible {
+    display: block;
 }

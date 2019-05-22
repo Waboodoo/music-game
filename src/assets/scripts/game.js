@@ -11,6 +11,7 @@ const Game = {
         currentNote: null,
         currentLevel: null,
         selectableOptions: [],
+        theoryVisible: false,
         
         noteState: NoteState.VISIBLE,
         /* Indicates how far the current note has moved (goes from 0 to 1) */
@@ -24,8 +25,8 @@ const Game = {
     start() {
         this._setScore(0, 0);
         this._state.levelNumber = 0;
-        this._setGameState(GameState.RUNNING);
         this.transitionToNextLevel();
+        this._setGameState(GameState.RUNNING);
     },
     
     _setGameState(state) {
@@ -34,7 +35,7 @@ const Game = {
     },
     
     tick() {
-        if (!this.isRunning()) {
+        if (!this.isRunning() || this.isTheoryVisible()) {
             return;
         }
         this._advanceProgress();
@@ -104,6 +105,7 @@ const Game = {
         this._state.currentLevel = Config.levels[this._state.levelNumber - 1];
         this._transitionToNextNote();
         this._setGameState(GameState.RUNNING);
+        this._triggerEvent(GameEvent.LEVEL_CHANGED);
     },
     
     _transitionToNextNote() {
@@ -267,7 +269,22 @@ const Game = {
     },
     
     _triggerEvent(eventName) {
-        this._eventListener(eventName);
+        if (this._state.state) {
+            this._eventListener(eventName);
+        }
+    },
+    
+    toggleTheory() {
+        this._state.theoryVisible = !this._state.theoryVisible;
+        this._triggerEvent(GameEvent.THEORY_TOGGLED);
+    },
+    
+    isTheoryVisible() {
+        return this._state.theoryVisible;
+    },
+    
+    getTheoryUri() {
+        return 'assets/documents/' + this._getLevelConfig().theory;
     },
     
 };

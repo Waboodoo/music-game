@@ -56,6 +56,10 @@ function setup() {
                 Game.transitionToNextLevel();
                 break;
             }
+            case GameUIEvent.THEORY: {
+                Game.toggleTheory();
+                break;
+            }
             case GameUIEvent.OPTION_SELECTED: {
                 Game.onOptionSelected(data.index);
                 break;
@@ -64,22 +68,40 @@ function setup() {
     });
     Game.init((eventName) => {
         switch (eventName) {
-            case GameEvent.OPTIONS_CHANGED: {
-                GameUI.setOptions(
-                    Game.getSelectableOptions()
-                        .map(option => option.name)
-                );
+            case GameEvent.OPTIONS_CHANGED:
+            case GameEvent.GAME_STATE_CHANGED:
+            case GameEvent.THEORY_TOGGLED:
+            case GameEvent.SCORE_CHANGED: {
+                updateUIState();
                 break;
             }
-            case GameEvent.GAME_STATE_CHANGED: {
-                GameUI.setGameButtonState(Game.isRunning());
-                GameUI.setOptionsVisibility(Game.isRunning());
+            case GameEvent.LEVEL_CHANGED: {
+                Game.toggleTheory();
                 break;
             }
         }
     });
     
     Game.start();
+}
+
+function updateUIState() {
+    GameUI.setOptions(
+        Game.getSelectableOptions()
+            .map(option => option.name)
+    );
+    
+    if (Game.isTheoryVisible()) {
+        GameUI.showTheory(Game.getTheoryUri());
+        GameUI.setNextLevelVisible(false);
+    } else {
+        GameUI.setNextLevelVisible(Game.getLevelScore() >= Game.getLevelCompletionScore(), Game.isComplete());
+        GameUI.hideTheory();
+    }
+    
+    GameUI.setGameButtonState(Game.isRunning());
+    GameUI.setOptionsVisibility(Game.isRunning());
+    GameUI.setPauseButtonVisible(!Game.isComplete());
 }
 
 /* Canvas drawing */
@@ -95,10 +117,12 @@ function draw() {
         GameUI.drawLevelNumber(Game.getLevelNumber());
     }
     GameUI.setTotalScore(Game.getTotalScore());
-    GameUI.drawScore();
-    GameUI.setLevelScore(Game.getLevelScore(), Game.getLevelCompletionScore());
-    GameUI.drawLevelScore();
-    GameUI.setNextLevelVisible(Game.getLevelScore() >= Game.getLevelCompletionScore());
+    if (!Game.isTheoryVisible()) {
+        GameUI.drawScore();
+        GameUI.setLevelScore(Game.getLevelScore(), Game.getLevelCompletionScore());
+        GameUI.drawLevelScore();
+        GameUI.setNextLevelVisible(Game.getLevelScore() >= Game.getLevelCompletionScore(), Game.isComplete());
+    }
     
     // Draw static musical elements
     MusicDrawings.drawStaffs(Game.hasTrebleClef(), Game.hasBassClef());
