@@ -95,7 +95,7 @@ function updateUIState() {
         GameUI.showTheory(Game.getTheoryUri());
         GameUI.setNextLevelVisible(false);
     } else {
-        GameUI.setNextLevelVisible(Game.getLevelScore() >= Game.getLevelCompletionScore(), Game.isComplete());
+        GameUI.setNextLevelVisible(Game.isNextLevelButtonVisible(), Game.isComplete());
         GameUI.hideTheory();
     }
     
@@ -121,7 +121,7 @@ function draw() {
         GameUI.drawScore();
         GameUI.setLevelScore(Game.getLevelScore(), Game.getLevelCompletionScore());
         GameUI.drawLevelScore();
-        GameUI.setNextLevelVisible(Game.getLevelScore() >= Game.getLevelCompletionScore(), Game.isComplete());
+        GameUI.setNextLevelVisible(Game.isNextLevelButtonVisible(), Game.isComplete());
     }
     
     // Draw static musical elements

@@ -286,5 +286,10 @@ const Game = {
     getTheoryUri() {
         return 'assets/documents/' + this._getLevelConfig().theory;
     },
+
+    isNextLevelButtonVisible() {
+        return this.getLevelNumber() < Config.levels.length;
+        // return getLevelScore() >= Game.getLevelCompletionScore();
+    },
     
 };
