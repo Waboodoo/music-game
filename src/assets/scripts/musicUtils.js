@@ -1,13 +1,13 @@
 const MusicUtils = {
-    
-    getNoteFromName(name) {
-        return this._notes.find(note => note.name === name);
+
+    getNoteFromName(name, clef) {
+        return this._notes.find(note => note.name === name && (!clef || note.clef === clef));
     },
-    
+
     getNoteName(note, useSimpleName) {
         return useSimpleName ? (note.simpleName || note.name) : note.name;
     },
-    
+
     _notes: [
         {
             name: "Ges'",
@@ -311,6 +311,12 @@ const MusicUtils = {
             clef: Clef.TREBLE,
         },
         {
+            name: "c'",
+            simpleName: "c",
+            offset: 7,
+            clef: Clef.BASS,
+        },
+        {
             name: "cis'",
             offset: -5,
             clef: Clef.TREBLE,
@@ -565,5 +571,5 @@ const MusicUtils = {
             modifier: NoteModifier.SHARP,
         },
     ],
-    
+
 };

@@ -12,7 +12,7 @@ function preload() {
     Assets.images.background3 = AssetLoader.getImage('backgrounds/background3.png');
     Assets.images.background4 = AssetLoader.getImage('backgrounds/background4.png');
     Assets.images.background5 = AssetLoader.getImage('backgrounds/background5.png');
-    
+
     // Musical elements
     Assets.images.trebleClef = AssetLoader.getImage('treble-clef.png');
     Assets.images.bassClef = AssetLoader.getImage('bass-clef.png');
@@ -27,12 +27,12 @@ function preload() {
 function setup() {
     // Background music
     Assets.music = AssetLoader.getSound('music.mp3');
-    
+
     // Set up canvas
     const canvas = createCanvas(Config.canvas.width, Config.canvas.height);
     canvas.parent('canvasContainer');
     frameRate(Config.frameRate);
-    
+
     // Controller logic
     MusicPlayer.init(Assets.music, (eventName) => {
         switch (eventName) {
@@ -81,7 +81,7 @@ function setup() {
             }
         }
     });
-    
+
     Game.start();
 }
 
@@ -90,7 +90,7 @@ function updateUIState() {
         Game.getSelectableOptions()
             .map(option => option.name)
     );
-    
+
     if (Game.isTheoryVisible()) {
         GameUI.showTheory(Game.getTheoryUri());
         GameUI.setNextLevelVisible(false);
@@ -98,7 +98,7 @@ function updateUIState() {
         GameUI.setNextLevelVisible(Game.isNextLevelButtonVisible(), Game.isComplete());
         GameUI.hideTheory();
     }
-    
+
     GameUI.setGameButtonState(Game.isRunning());
     GameUI.setOptionsVisibility(Game.isRunning());
     GameUI.setPauseButtonVisible(!Game.isComplete());
@@ -108,7 +108,7 @@ function updateUIState() {
 function draw() {
     // Iterate game & animation state
     Game.tick();
-    
+
     // Draw UI
     GameUI.resetCanvas(Game.getColorStyle());
     if (Game.isComplete()) {
@@ -123,12 +123,16 @@ function draw() {
         GameUI.drawLevelScore();
         GameUI.setNextLevelVisible(Game.isNextLevelButtonVisible(), Game.isComplete());
     }
-    
+
     // Draw static musical elements
     MusicDrawings.drawStaffs(Game.hasTrebleClef(), Game.hasBassClef());
-    
+
     // Draw animated musical elements
     if (Game.isRunning() && Game.isNoteVisible()) {
-        MusicDrawings.drawNote(Game.getCurrentNote(), Game.getClefPositionForCurrentNote(), Game.getNoteProgress());
+        MusicDrawings.drawNote(
+            Game.getCurrentNote(),
+            Game.getClefPositionForCurrentNote(),
+            Game.getNoteProgress(),
+        );
     }
 }

@@ -1,11 +1,11 @@
 const MusicDrawings = {
-    
+
     drawStaffs(withTrebleClef, withBassClef) {
         let verticalOffset = Config.staff.verticalOffset;
         if (!withTrebleClef || !withBassClef) {
             verticalOffset += this._getVerticalOffsetBetweenClefs() / 2;
         }
-        
+
         if (withTrebleClef) {
             const clef = Assets.images.trebleClef
             for (let i = 0; i < 5; i++) {
@@ -16,19 +16,19 @@ const MusicDrawings = {
             const clefY = verticalOffset - Config.staff.verticalLineSpacing * 1.5 + 10;
             const clefHeight = Config.staff.verticalLineSpacing * 6.5;
             const clefWidth = clefHeight / clef.height * clef.width;
-            
+
             image(clef, clefX, clefY, clefWidth, clefHeight);
-            
+
             const timeSignature = Assets.images.timeSignature;
             const timeX = clefX + 80;
             const timeY = clefY + 20;
             const timeHeight = Config.staff.verticalLineSpacing * 4;
             const timeWidth = timeHeight / timeSignature.height * timeSignature.width;
             image(timeSignature, timeX, timeY, timeWidth, timeHeight);
-            
+
             verticalOffset += this._getVerticalOffsetBetweenClefs();
         }
-        
+
         if (withBassClef) {
             const clef = Assets.images.bassClef;
             for (let i = 0; i < 5; i++) {
@@ -39,9 +39,9 @@ const MusicDrawings = {
             const clefY = verticalOffset - Config.staff.verticalLineSpacing * 1.5 + 28;
             const clefHeight = Config.staff.verticalLineSpacing * 3.6;
             const clefWidth = clefHeight / clef.height * clef.width;
-            
+
             image(clef, clefX, clefY, clefWidth, clefHeight);
-            
+
             const timeSignature = Assets.images.timeSignature;
             const timeX = clefX + 80;
             const timeY = clefY + 2;
@@ -50,7 +50,7 @@ const MusicDrawings = {
             image(timeSignature, timeX, timeY, timeWidth, timeHeight);
         }
     },
-    
+
     _getVerticalOffsetBetweenClefs() {
         return Config.staff.verticalSpacing + Config.staff.verticalLineSpacing * 5;
     },
@@ -62,7 +62,7 @@ const MusicDrawings = {
         const noteWidth = noteImage.width;
         const noteHeight = noteImage.height;
         let noteX = Config.note.horizontalOffset + animationOffset;
-        
+
         if (note.modifier) {
             const modifierImage = note.modifier === NoteModifier.SHARP ? Assets.images.sharpSign : Assets.images.flatSign;
             const modifierY = this._getModifierVerticalOffset(note, clefLocation);
@@ -70,19 +70,19 @@ const MusicDrawings = {
             const modifierHeight = noteHeight * 0.6;
             const modifierWidth = modifierHeight / modifierImage.height * modifierImage.width;
             image(modifierImage, modifierX, modifierY, modifierWidth, modifierHeight);
-            
+
             noteX += modifierWidth + Config.note.modifiers.horizontalOffsetToNote;
         }
-        
+
         image(noteImage, noteX, noteY, noteWidth, noteHeight);
-        
+
         this._drawLedgerLines(note, noteImage.width, clefLocation, noteX);
     },
-    
+
     _getNoteImage(note) {
         return note.offset <= 0 ? Assets.images.bottomNote : Assets.images.topNote;
     },
-    
+
     _getNoteVerticalOffset(note, clefLocation) {
         let noteY = this._getBaseClefOffset(clefLocation);
         noteY += Config.staff.verticalOffset;
@@ -91,7 +91,7 @@ const MusicDrawings = {
         noteY -= note.offset * Config.staff.verticalLineSpacing / 2;
         return noteY;
     },
-    
+
     _getBaseClefOffset(clefLocation) {
         switch (clefLocation) {
             case ClefLocation.MIDDLE:
@@ -102,7 +102,7 @@ const MusicDrawings = {
                 return 0;
         }
     },
-    
+
     _getModifierVerticalOffset(note, clefLocation) {
         let noteY = this._getBaseClefOffset(clefLocation);
         noteY += Config.staff.verticalOffset;
@@ -124,7 +124,7 @@ const MusicDrawings = {
     },
 
     _drawLedgerLine(offset, noteWidth, clefLocation, offsetX) {
-        if (offset % 2 == 0) {
+        if (offset % 2 === 0) {
             return;
         }
         const w = noteWidth * Config.note.helperLineRatio;
