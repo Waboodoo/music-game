@@ -1,29 +1,29 @@
 const Config = {
     frameRate: 30,
-    
+
     secondsPerNote: 7,
     secondsBetweenNotes: 0.5,
     gracePeriodInSeconds: 1,
-    
+
     pointsPerNote: 10,
     pointDeductionForWrongAnswer: 2,
     pointDeductionForNoAnswer: 1,
-    
+
     canvas: {
         width: 1024, /* pixels */
         height: 768, /* pixels */
     },
-    
+
     clef: {
         horizontalOffset: 20, /* pixels */
     },
-    
+
     staff: {
         verticalOffset: 230, /* pixels */
         verticalLineSpacing: 20, /* pixels */
         verticalSpacing: 80, /* pixels */
     },
-    
+
     note: {
         horizontalOffset: 150, /* pixels */
         verticalOffsets: {
@@ -51,7 +51,7 @@ const Config = {
             horizontalOffsetToNote: 10, /* pixels */
         },
     },
-    
+
     levels: [
         /* Level 1 */
         {
@@ -62,7 +62,7 @@ const Config = {
             useSimpleNames: true,
             colorStyle: 1,
             completionScore: 200,
-            theory: 'Lvl 1 Theorie.pdf',
+            theory: 'theory/level01.pdf',
         },
         /* Level 2 */
         {
@@ -73,7 +73,7 @@ const Config = {
             useSimpleNames: true,
             colorStyle: 1,
             completionScore: 200,
-            theory: 'Lvl 2 Theorie.pdf',
+            theory: 'theory/level02.pdf',
         },
         /* Level 3 */
         {
@@ -83,7 +83,7 @@ const Config = {
             otherNotes: ["d'", "e'", "f'", "g'", "a'", "h'", "c''"],
             colorStyle: 1,
             completionScore: 200,
-            theory: 'Lvl 3 Theorie.pdf',
+            theory: 'theory/level03.pdf',
         },
         /* Level 4 */
         {
@@ -93,7 +93,7 @@ const Config = {
             otherNotes: ["c'", "d'", "e'", "f'", "g'", "a'", "h'", "c''", "d''", "e''", "f''", "g''", "a''", "h''", "c'''"],
             colorStyle: 1,
             completionScore: 250,
-            theory: 'Lvl 4 Theorie.pdf',
+            theory: 'theory/level04.pdf',
         },
         /* Level 5 */
         {
@@ -103,7 +103,7 @@ const Config = {
             otherNotes: ["c'", "d'", "e'", "f'", "g'", "a'", "h'", "c''", "d''", "e''", "f''", "g''", "a''", "h''", "c'''"],
             colorStyle: 1,
             completionScore: 250,
-            theory: 'Lvl 5 Theorie.pdf',
+            theory: 'theory/level05.pdf',
         },
         /* Level 6 */
         {
@@ -113,7 +113,7 @@ const Config = {
             otherNotes: ["c'", "d'", "e'", "f'", "g'", "a'", "h'", "c''", "d''", "e''", "f''", "g''", "a''", "h''", "c'''"],
             colorStyle: 1,
             completionScore: 250,
-            theory: 'Lvl 6 Theorie.pdf',
+            theory: 'theory/level06.pdf',
         },
         /* Level 7 */
         {
@@ -123,7 +123,7 @@ const Config = {
             otherNotes: ["c", "d", "e", "f", "g", "a", "h", "c'"],
             colorStyle: 2,
             completionScore: 200,
-            theory: 'Lvl 7 Theorie.pdf',
+            theory: 'theory/level07.pdf',
         },
         /* Level 8 */
         {
@@ -133,7 +133,7 @@ const Config = {
             otherNotes: ["c", "d", "e", "f", "g", "a", "h", "c'"],
             colorStyle: 2,
             completionScore: 200,
-            theory: 'Lvl 8 Theorie.pdf',
+            theory: 'theory/level08.pdf',
         },
         /* Level 9 */
         {
@@ -143,7 +143,7 @@ const Config = {
             otherNotes: ["C", "D", "E", "F", "G", "A", "H", "c", "d", "e", "f", "g", "a", "h", "c'"],
             colorStyle: 2,
             completionScore: 250,
-            theory: 'Lvl 9 Theorie.pdf',
+            theory: 'theory/level09.pdf',
         },
         /* Level 10 */
         {
@@ -152,7 +152,7 @@ const Config = {
             notes: ["C", "D", "E", "F", "G", "A", "H", "c", "d", "e", "f", "g", "a", "h", "c'"],
             colorStyle: 2,
             completionScore: 250,
-            theory: 'Lvl 10 Theorie.pdf',
+            theory: 'theory/level10.pdf',
         },
         /* Level 11 */
         {
@@ -161,7 +161,7 @@ const Config = {
             notes: ["G'", "A'", "H'", "C", "D", "E", "F", "G", "A", "H"],
             colorStyle: 2,
             completionScore: 200,
-            theory: 'Lvl 11 Theorie.pdf',
+            theory: 'theory/level11.pdf',
         },
         /* Level 12 */
         {
@@ -170,7 +170,7 @@ const Config = {
             notes: ["G'", "A'", "H'", "C", "D", "E", "F", "G", "A", "H"],
             colorStyle: 2,
             completionScore: 200,
-            theory: 'Lvl 12 Theorie.pdf',
+            theory: 'theory/level12.pdf',
         },
         /* Level 13 */
         {
@@ -179,7 +179,7 @@ const Config = {
             notes: ["G'", "A'", "H'", "C", "D", "E", "F", "G", "A", "H", "c", "d", "e", "f", "g", "a", "h", "c'"],
             colorStyle: 2,
             completionScore: 250,
-            theory: 'Lvl 13 Theorie.pdf',
+            theory: 'theory/level13.pdf',
         },
         /* Level 14 */
         {
@@ -188,7 +188,7 @@ const Config = {
             notes: ["G'", "A'", "H'", "C", "D", "E", "F", "G", "A", "H", "c", "d", "e", "f", "g", "a", "h", "c'", "d'", "e'", "f'", "g'", "a'", "h'", "c''", "d''", "e''", "f''", "g''", "a''", "h''", "c'''"],
             colorStyle: 3,
             completionScore: 300,
-            theory: 'Lvl 14 Theorie.pdf',
+            theory: 'theory/level14.pdf',
         },
         /* Level 15 */
         {
@@ -197,7 +197,7 @@ const Config = {
             notes: ["c'", "cis'", "d'", "dis'", "e'", "eis'", "f'", "fis'", "g'", "gis'", "a'", "ais'", "h'", "his'", "c''", "cis''"],
             colorStyle: 4,
             completionScore: 250,
-            theory: 'Lvl 15 Theorie.pdf',
+            theory: 'theory/level15.pdf',
         },
         /* Level 16 */
         {
@@ -206,7 +206,7 @@ const Config = {
             notes: ["G'", "Gis'", "A'", "Ais'", "H'", "His'", "C", "Cis", "D", "Dis", "E", "Eis", "F", "Fis", "G", "Gis", "A", "Ais", "H", "His", "c", "cis", "d", "dis", "e", "eis", "f", "fis", "g", "gis", "a", "ais", "h", "his", "c'", "cis'", "d'", "dis'", "e'", "eis'", "f'", "fis'"],
             colorStyle: 4,
             completionScore: 250,
-            theory: 'Lvl 16 Theorie.pdf',
+            theory: 'theory/level16.pdf',
         },
         /* Level 17 */
         {
@@ -215,7 +215,7 @@ const Config = {
             notes: ["G'", "Gis'", "A'", "Ais'", "H'", "His'", "C", "Cis", "D", "Dis", "E", "Eis", "F", "Fis", "G", "Gis", "A", "Ais", "H", "His", "c", "cis", "d", "dis", "e", "eis", "f", "fis", "g", "gis", "a", "ais", "h", "his", "c'", "cis'", "d'", "dis'", "e'", "eis'", "f'", "fis'", "g'", "gis'", "a'", "ais'", "h'", "his'", "c''", "cis''", "d''", "dis''", "e''", "eis''", "f''", "fis''", "g''", "gis''", "a''", "ais''", "h''", "his''", "c'''", "cis'''"],
             colorStyle: 3,
             completionScore: 300,
-            theory: 'Lvl 17 Theorie.pdf',
+            theory: 'theory/level17.pdf',
         },
         /* Level 18 */
         {
@@ -224,7 +224,7 @@ const Config = {
             notes: ["ces'", "c'", "des'", "d'", "es'", "e'", "fes'", "f'", "ges'", "g'", "as'", "a'", "b'", "h'", "ces''", "c''", "des''", "d''", "es''", "e''", "fes''", "f''", "ges''", "g''", "as''", "a''", "b''", "h''", "ces'''"],
             colorStyle: 5,
             completionScore: 250,
-            theory: 'Lvl 18 Theorie.pdf',
+            theory: 'theory/level18.pdf',
         },
         /* Level 19 */
         {
@@ -233,7 +233,7 @@ const Config = {
             notes: ["Ges'", "G'", "As'", "A'", "B'", "H'", "Ces", "C", "Des", "D", "Es", "E", "Fes", "F", "Ges", "G", "As", "A", "B", "H", "ces", "c", "des", "d", "es", "e", "fes", "f", "ges", "g", "as", "a", "b", "h", "ces'", "c'", "des'", "d'", "es'", "e", "fes'"],
             colorStyle: 5,
             completionScore: 250,
-            theory: 'Lvl 19 Theorie.pdf',
+            theory: 'theory/level19.pdf',
         },
         /* Level 20 */
         {
@@ -242,8 +242,8 @@ const Config = {
             notes: ["G'", "Gis'", "As'", "A'", "Ais'", "B'", "H'", "His'", "Ces", "C", "Cis", "Des", "D", "Dis", "Es", "E", "Eis", "Fes", "F", "Fis", "Ges", "G", "Gis", "As", "A", "Ais", "B", "H", "His", "ces", "c", "cis", "des", "d", "dis", "es", "e", "eis", "fes", "f", "fis", "ges", "g", "gis", "as", "a", "ais", "b", "h", "his", "ces'", "c'", "cis'", "des'", "d'", "dis'", "es'", "e'", "eis'", "fes'", "f'", "fis'", "ges'", "g'", "gis'", "as'", "a'", "ais'", "b'", "h'", "his'", "ces''", "c''", "cis''", "des''", "d''", "dis''", "es''", "e''", "eis''", "fes''", "f''", "fis''", "ges''", "g''", "gis''", "as''", "a''", "ais''", "b''", "h''", "his''", "ces'''", "c'''", "cis'''"],
             colorStyle: 3,
             completionScore: 300,
-            theory: 'Lvl 20 Theorie.pdf',
+            theory: 'theory/level20.pdf',
         },
-        
+
     ],
 };
