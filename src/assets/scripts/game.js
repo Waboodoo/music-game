@@ -178,9 +178,19 @@ const Game = {
 
     _getRandomNote() {
         const noteNames = this._getLevelConfig().notes;
-        const clef = this.hasTrebleClef() ? Clef.TREBLE : Clef.BASS;
+        const clef = this._getRequiredClefForNote();
         const noteName = noteNames[Math.floor(Math.random() * noteNames.length)];
         return MusicUtils.getNoteFromName(noteName, clef);
+    },
+
+    _getRequiredClefForNote() {
+        if (this.hasTrebleClef() && !this.hasBassClef()) {
+            return Clef.TREBLE;
+        }
+        if (!this.hasTrebleClef() && this.hasBassClef()) {
+            return Clef.BASS;
+        }
+        return null;
     },
 
     _generateSelectableOptions() {
