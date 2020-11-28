@@ -305,6 +305,12 @@ const MusicUtils = {
             modifier: NoteModifier.FLAT,
         },
         {
+            name: "ces'",
+            offset: 7,
+            clef: Clef.BASS,
+            modifier: NoteModifier.FLAT,
+        },
+        {
             name: "c'",
             simpleName: "c",
             offset: -5,
@@ -323,9 +329,21 @@ const MusicUtils = {
             modifier: NoteModifier.SHARP,
         },
         {
+            name: "cis'",
+            offset: 7,
+            clef: Clef.BASS,
+            modifier: NoteModifier.SHARP,
+        },
+        {
             name: "des'",
             offset: -4,
             clef: Clef.TREBLE,
+            modifier: NoteModifier.FLAT,
+        },
+        {
+            name: "des'",
+            offset: 8,
+            clef: Clef.BASS,
             modifier: NoteModifier.FLAT,
         },
         {
@@ -335,9 +353,21 @@ const MusicUtils = {
             clef: Clef.TREBLE,
         },
         {
+            name: "d'",
+            simpleName: "d",
+            offset: 8,
+            clef: Clef.BASS,
+        },
+        {
             name: "dis'",
             offset: -4,
             clef: Clef.TREBLE,
+            modifier: NoteModifier.SHARP,
+        },
+        {
+            name: "dis'",
+            offset: 8,
+            clef: Clef.BASS,
             modifier: NoteModifier.SHARP,
         },
         {
@@ -347,15 +377,33 @@ const MusicUtils = {
             modifier: NoteModifier.FLAT,
         },
         {
+            name: "es'",
+            offset: 9,
+            clef: Clef.BASS,
+            modifier: NoteModifier.FLAT,
+        },
+        {
             name: "e'",
             simpleName: "e",
             offset: -3,
             clef: Clef.TREBLE,
         },
         {
+            name: "e'",
+            simpleName: "e",
+            offset: 9,
+            clef: Clef.BASS,
+        },
+        {
             name: "eis'",
             offset: -3,
             clef: Clef.TREBLE,
+            modifier: NoteModifier.SHARP,
+        },
+        {
+            name: "eis'",
+            offset: 9,
+            clef: Clef.BASS,
             modifier: NoteModifier.SHARP,
         },
         {
@@ -365,15 +413,33 @@ const MusicUtils = {
             modifier: NoteModifier.FLAT,
         },
         {
+            name: "fes'",
+            offset: 10,
+            clef: Clef.BASS,
+            modifier: NoteModifier.FLAT,
+        },
+        {
             name: "f'",
             simpleName: "f",
             offset: -2,
             clef: Clef.TREBLE,
         },
         {
+            name: "f'",
+            simpleName: "f",
+            offset: 10,
+            clef: Clef.BASS,
+        },
+        {
             name: "fis'",
             offset: -2,
             clef: Clef.TREBLE,
+            modifier: NoteModifier.SHARP,
+        },
+        {
+            name: "fis'",
+            offset: 10,
+            clef: Clef.BASS,
             modifier: NoteModifier.SHARP,
         },
         {
