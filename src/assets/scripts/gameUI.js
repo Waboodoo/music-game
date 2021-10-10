@@ -153,11 +153,7 @@ const GameUI = {
 
     showTheory(uri) {
         const frame = select(`#theoryFrame`);
-        const pdfContainer = createElement('object');
-        pdfContainer.attribute('type', 'application/pdf')
-        pdfContainer.attribute('data', uri);
-        frame.html('');
-        frame.child(pdfContainer);
+        PDFObject.embed(uri, "#theoryFrame");
         frame.addClass('visible');
         select('.text', `#theoryButton`).html('OK');
     },
